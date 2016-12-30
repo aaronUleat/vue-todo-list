@@ -8,6 +8,8 @@ html(lang='en')
         link(rel="stylesheet" href="css/style.css")
     body
         .container
+            todo-list(:tareas="tareas")
+        template#todo-template
             .col-xs-12.col-sm-12.col-md-offset-3.col-md-5.col-lg-offset-3.col-lg-5
                 h2 ToDo App
                 // Formulario
@@ -32,12 +34,13 @@ html(lang='en')
                                     span.glyphicon.glyphicon-floppy-save
                                 button.btn.btn-default.btn-xs(@click="editandoTarea = $index")
                                     span.glyphicon.glyphicon-pencil
-                                button.btn.btn-primary.btn-xs(@click="tarea.completado = true")
+                                button.btn.btn-primary.btn-xs(@click="actualizarEstadoTarea(false, tarea)")
                                     span.glyphicon.glyphicon-ok
-                                button.btn.btn-primary.btn-xs(@click="tarea.completado = false")
+                                button.btn.btn-primary.btn-xs(@click="actualizarEstadoTarea(true, tarea)")
                                     span.glyphicon.glyphicon-repeat
-                                button.btn.btn-danger.btn-xs(@click="eliminarTarea($index)")
+                                button.btn.btn-danger.btn-xs(@click="eliminarTarea(tarea)")
                                     span.glyphicon.glyphicon-remove
         pre {{ $data | json }}
         script(src='https://cdn.jsdelivr.net/vue/1.0.24/vue.js')
+        script(src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js")
         script(src='js/main.js')
