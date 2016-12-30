@@ -1,0 +1,43 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        title Todo App
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+        link(rel="stylesheet" href="css/style.css")
+    body
+        .container
+            .col-xs-12.col-sm-12.col-md-offset-3.col-md-5.col-lg-offset-3.col-lg-5
+                h2 ToDo App
+                // Formulario
+                form.form(@submit.prevent="agregarTarea(nuevaTarea)")
+                    .input-group
+                        input.form-control(type='text', v-model="nuevaTarea")
+                        span.input-group-btn
+                            button.btn.btn-default(type='submit')
+                                span.glyphicon.glyphicon-plus
+                                |  Añadir tarea
+                // Listado de tareas
+                ul.list-group
+                    li.list-group-item.clearfix(v-for="tarea in tareas")
+                        p.lead(:class="{completado: tarea.completado }") {{ tarea.titulo }}
+                        .form-group
+                            input.form-control(type='text' v-show="editandoTarea === $index" v-model="tarea.titulo"
+                            v-on:blur="editandoTarea = null, editarTarea(tarea)")
+                        div
+                            span.pull-right
+                                button.btn.btn-default.btn-xs(v-show="editandoTarea === $index"
+                                v-on:click="editandoTarea = null, editarTarea(tarea)" )
+                                    span.glyphicon.glyphicon-floppy-save
+                                button.btn.btn-default.btn-xs(@click="editandoTarea = $index")
+                                    span.glyphicon.glyphicon-pencil
+                                button.btn.btn-primary.btn-xs(@click="tarea.completado = true")
+                                    span.glyphicon.glyphicon-ok
+                                button.btn.btn-primary.btn-xs(@click="tarea.completado = false")
+                                    span.glyphicon.glyphicon-repeat
+                                button.btn.btn-danger.btn-xs(@click="eliminarTarea($index)")
+                                    span.glyphicon.glyphicon-remove
+        pre {{ $data | json }}
+        script(src='https://cdn.jsdelivr.net/vue/1.0.24/vue.js')
+        script(src='js/main.js')
